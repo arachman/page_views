@@ -6,11 +6,11 @@ describe Api::V1::PageViewsController , :type => :controller do
     ]
   end
 
-  describe 'page_views.json' do
+  describe 'GET /index' do
     it "returns a 200 HTTP status" do
       request.env["HTTP_ACCEPT"] = "application/json"
       get 'index', { :api_key => "12345" }.to_json
-      expect(response).to be_success
+      response.code.should == 200
     end
   end
 

@@ -1,0 +1,17 @@
+production:
+  adapter: postgresql
+  database: page_views_prod
+  username: deploy
+  password: n3xtm0v3m3nt
+  encoding: utf8
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+<%
+  def read_file(filename)
+    filename = File.expand_path(File.join(Rails.root, filename))
+    IO.read(filename) if File.file?(filename)
+  end
+%>
+
+<%= read_file 'config/database.local.yml' %>

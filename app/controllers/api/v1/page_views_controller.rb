@@ -2,6 +2,22 @@ class Api::V1::PageViewsController < ApplicationController
   respond_to :json
   before_filter :check_api_key, :only => :index
 
+  ##
+  # Accepts and stores page view data
+  #
+  # POST /api/v1/page_views
+  #
+  # params:
+  #   api_key     - required
+  #   page_url    - required
+  #   ip_address  - required
+  #
+  # = Examples
+  #
+  # curl -X POST -H "Content-Type: application/json" \
+  # "http://tranquil-mesa-2301.herokuapp.com/api/v1/page_views" -d ' \
+  # {"api_key" : "12345", "ip_address" : "192.158.1.3", "page_url" : "www.google.com"}'
+  #
   def create
     @page_view = PageView.new(
       :api_key    => params[:api_key],
@@ -20,6 +36,27 @@ class Api::V1::PageViewsController < ApplicationController
     end
   end
 
+  ##
+  # Returns a list of page view data for a given api key. Accepts
+  # optional parameters to filter the results by urls and/or ip addresses
+  #
+  # GET /api/v1/page_views
+  #
+  # params:
+  #   api_key     - required
+  #   url_filters - optional array of urls
+  #   ip_filters  - optional array of ip addresses
+  #
+  # = Examples
+  #
+  # curl -X GET -H "Content-Type: application/json" \
+  # "http://tranquil-mesa-2301.herokuapp.com/api/v1/page_views" -d ' \
+  # {"api_key" : "12345"}'
+  #
+  # curl -X GET -H "Content-Type: application/json" \
+  # "http://tranquil-mesa-2301.herokuapp.com/api/v1/page_views" -d ' \
+  # {"api_key" : "12345", "url_filters" : ["www.yahoo.com"]}'
+  #
   def index
     respond_to do |format|
       format.json do
